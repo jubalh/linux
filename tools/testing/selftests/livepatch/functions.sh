@@ -351,3 +351,19 @@ function check_sysfs_value() {
 		die "Unexpected value in $path: $expected_value vs. $value"
 	fi
 }
+
+# check_sysfs_path_present(modname, rel_path) - check whether sysfs path
+# is present. Older kernels might lack support. This function helps
+# with running a newer testsuite on an older kernel.
+#	modname - livepatch module creating the sysfs interface
+#	rel_path - relative path of the sysfs interface
+function check_sysfs_path_present() {
+	local mod="$1"; shift
+	local rel_path="$1"; shift
+
+	local path="$SYSFS_KLP_DIR/$mod/$rel_path"
+
+	if [[ ! -f "$path" ]]; then
+		skip "sysfs path not present $path"
+	fi
+}
