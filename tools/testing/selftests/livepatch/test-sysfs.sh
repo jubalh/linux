@@ -89,6 +89,8 @@ start_test "sysfs test replace enabled"
 MOD_LIVEPATCH=test_klp_atomic_replace
 load_lp $MOD_LIVEPATCH replace=1
 
+check_sysfs_path_present "$MOD_LIVEPATCH" "replace"
+
 check_sysfs_rights "$MOD_LIVEPATCH" "replace" "-r--r--r--"
 check_sysfs_value  "$MOD_LIVEPATCH" "replace" "1"
 
@@ -111,6 +113,8 @@ livepatch: '$MOD_LIVEPATCH': unpatching complete
 start_test "sysfs test replace disabled"
 
 load_lp $MOD_LIVEPATCH replace=0
+
+check_sysfs_path_present "$MOD_LIVEPATCH" "replace"
 
 check_sysfs_rights "$MOD_LIVEPATCH" "replace" "-r--r--r--"
 check_sysfs_value  "$MOD_LIVEPATCH" "replace" "0"
